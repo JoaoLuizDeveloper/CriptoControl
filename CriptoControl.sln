@@ -3,9 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34302.85
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CriptoControl.API", "CriptoControl.API.csproj", "{1A3E94AD-38E2-4051-9B4D-3D6C7FD005C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CriptoControl.API", "CriptoControl.API.csproj", "{1A3E94AD-38E2-4051-9B4D-3D6C7FD005C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CriptoControl.Web", "..\CriptoControl.Web\CriptoControl.Web.csproj", "{0687C4D9-87C9-4372-9F64-7E7C8D28E023}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CriptoControl.Web", "..\CriptoControl.Web\CriptoControl.Web.csproj", "{0687C4D9-87C9-4372-9F64-7E7C8D28E023}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CriptoControl.Model", "..\CriptoControl.Model\CriptoControl.Model.csproj", "{A0FCA719-3797-4C0E-B3E5-DAC11A57BC0E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CriptoControl.Infrastructure", "..\CriptoControl.Infrastructure\CriptoControl.Infrastructure.csproj", "{441FAC19-6987-4BA3-B8F3-4B75FAF4E7DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{0687C4D9-87C9-4372-9F64-7E7C8D28E023}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0687C4D9-87C9-4372-9F64-7E7C8D28E023}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0687C4D9-87C9-4372-9F64-7E7C8D28E023}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0FCA719-3797-4C0E-B3E5-DAC11A57BC0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0FCA719-3797-4C0E-B3E5-DAC11A57BC0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0FCA719-3797-4C0E-B3E5-DAC11A57BC0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0FCA719-3797-4C0E-B3E5-DAC11A57BC0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{441FAC19-6987-4BA3-B8F3-4B75FAF4E7DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{441FAC19-6987-4BA3-B8F3-4B75FAF4E7DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{441FAC19-6987-4BA3-B8F3-4B75FAF4E7DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{441FAC19-6987-4BA3-B8F3-4B75FAF4E7DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
