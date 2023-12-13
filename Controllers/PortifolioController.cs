@@ -1,6 +1,6 @@
-using CriptoControl.Domain.Interfaces;
 using CriptoControl.Model;
-using CriptoControl.Model.DTO.Cripto;
+using CriptoControl.Model.Interfaces.IApplication;
+using CriptoControl.Model.Interfaces.IRepository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CriptoControl.Controllers
@@ -9,11 +9,13 @@ namespace CriptoControl.Controllers
     [Route("[controller]")]
     public class PortifolioController : ControllerBase
     {
-        public readonly ICriptoRepository _cripto;
+        public readonly ICriptoRepository _criptoRepo;
+        public readonly ICriptoApplication _criptoApplication;
 
-        public PortifolioController(ICriptoRepository cripto)
+        public PortifolioController(ICriptoRepository criptoRepo, ICriptoApplication criptoApplication)
         {
-            _cripto = cripto;
+            _criptoRepo = criptoRepo;
+            _criptoApplication = criptoApplication;
         }
 
         #region Get List of Criptos
@@ -25,7 +27,7 @@ namespace CriptoControl.Controllers
         [ProducesResponseType(200, Type = typeof(IEnumerable<Cripto>))]
         public async Task<IEnumerable<Cripto>> GetAll()
         {
-            return await _cripto.GetAll();
+            return await _criptoRepo.GetAll();
         }
         #endregion
 
@@ -42,7 +44,11 @@ namespace CriptoControl.Controllers
         [ProducesDefaultResponseType]
         public async Task<Cripto> GetProject(int id)
         {
-            return await _cripto.Get(id);
+            var cripto = await _criptoRepo.Get(id);
+
+            _criptoApplication.ProcessGetOne(cripto);
+
+            return cripto;
         }
         #endregion
 
@@ -69,14 +75,22 @@ namespace CriptoControl.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (!await _cripto.Add(cripto))
+            try
             {
-                ModelState.AddModelError("", $"Something went wrong when you trying to save {cripto.Name}");
-                return StatusCode(500, ModelState);
-            }
+                if (!await _criptoRepo.Add(cripto))
+                {
+                    ModelState.AddModelError("", $"Something went wrong when you trying to save {cripto.Name}");
+                    return StatusCode(500, ModelState);
+                }
 
-            //return CreatedAtRoute("GetCripto", new { version = HttpContext.GetRequestedApiVersion().ToString(), id = projectsObj.Id }, projectsObj);
-            return Ok(cripto);
+                _criptoApplication.ProcessCreate(cripto);
+                //return CreatedAtRoute("GetCripto", new { version = HttpContext.GetRequestedApiVersion().ToString(), id = projectsObj.Id }, projectsObj);
+                return Ok(cripto);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
         }
         #endregion
 
@@ -97,7 +111,7 @@ namespace CriptoControl.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (!await _cripto.Update(cripto))
+            if (!await _criptoRepo.Update(cripto))
             {
                 ModelState.AddModelError("", $"Something went wrong when you trying to update {cripto.Name}");
                 return StatusCode(500, ModelState);
@@ -120,14 +134,14 @@ namespace CriptoControl.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> DeleteCripto(int id)
         {
-            if (!(await _cripto.Exists(id)))
+            if (!(await _criptoRepo.Exists(id)))
             {
                 return NotFound();
             }
 
             //var criptoDto = await _cripto.Get(id);
 
-            if (!(await _cripto.Remove(id)))
+            if (!(await _criptoRepo.Remove(id)))
             {
                 ModelState.AddModelError("", $"Something went wrong when you trying to delete id {id}");
                 return StatusCode(500, ModelState);
