@@ -84,7 +84,6 @@ namespace CriptoControl.Controllers
                 }
 
                 _criptoApplication.ProcessCreate(cripto);
-                //return CreatedAtRoute("GetCripto", new { version = HttpContext.GetRequestedApiVersion().ToString(), id = projectsObj.Id }, projectsObj);
                 return Ok(cripto);
             }
             catch (Exception ex)
@@ -117,6 +116,8 @@ namespace CriptoControl.Controllers
                 return StatusCode(500, ModelState);
             }
 
+            _criptoApplication.ProcessUpdate(cripto);
+
             return NoContent();
         }
         #endregion
@@ -139,13 +140,13 @@ namespace CriptoControl.Controllers
                 return NotFound();
             }
 
-            //var criptoDto = await _cripto.Get(id);
-
             if (!(await _criptoRepo.Remove(id)))
             {
                 ModelState.AddModelError("", $"Something went wrong when you trying to delete id {id}");
                 return StatusCode(500, ModelState);
             }
+
+            _criptoApplication.ProcessDelete(id);
 
             return NoContent();
         }
